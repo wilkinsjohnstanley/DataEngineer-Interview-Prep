@@ -118,10 +118,31 @@ SELECT columns FROM table1
 UNION
 SELECT columns FROM table2;
 ```
-
-
-
-
+### GET the name colum from the Users table where the UserID = 1
+```
+SELECT name FROM users
+WHERE UserID = 1;
+```
+### How do you persist an RDD in memory?
+* call cache() 
+* call persist()
+### What is a filter context in PowerBI?
+a set of active filters applied to a data model before a formula calculates a result
+### What is a List Comprehension in Python?
+A concise way to create lists.
+```
+[x**2 for x in range(10)]
+```
+### What are "first-class functions" in Python?
+In Python, all functions are objects that can be passed as arguments, returned by other functions, and even assigned to variables.
+### How is NoSQL different from a traditional RDBMS?
+NoSQL DB's are typically non-relational, distributed, and schema-less which allows them to handle unstructured data and scale horizontally.
+### In PowerBI, why is GEOMEAN the right function for averaging growth rates and AVERAGE the right function for averaging dollar amounts?
+GEOMEAN is used because growth rates compound over time while dollar amounts are simply additive.
+### What is a pull request?
+A request for teammates to review and approve changes before merging a branch.
+### What is PowerBI Gateway used for?
+The Gateway is software installed on-premises that acts as a bridge between PowerBI Service in the cloud and local data sources (SQL servers, files) that are not directly interacted with/accessible.
 
 
 
