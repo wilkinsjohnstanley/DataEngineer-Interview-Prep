@@ -144,7 +144,121 @@ A request for teammates to review and approve changes before merging a branch.
 ### What is PowerBI Gateway used for?
 The Gateway is software installed on-premises that acts as a bridge between PowerBI Service in the cloud and local data sources (SQL servers, files) that are not directly interacted with/accessible.
 
+### What's the difference between a Module and a Package?
+* A Module is a single file (.py)
+* A Package is a directory containing multiple modules and an __init__.py file
 
+### What is a merge conflict?
+An event where Git cannot resolve differences in code between two commits (usually when the same line has been edited by two devs)
+###  In MongoDB, what is a Document?
+The basic unit of data roughly equivalent to a "row"in a RDBMS.
+### What is an Agile Sprint?
+A set period usually 1 to 2 weeks during which work must be completed and ready for review.
+### What is the difference between 'is' and '=='?
+* 'is' checks identity, e.g. is it the same object in memory?
+* '==' checks equality
+### What is a virtual environment?
+An isolated directory that contains a specific version of Python and it's own set of installed packages. It's great for preventing dependency conflicts between projects. 
+### What is Power BI?
+A business analytics service by Microsoft that provides interactive visualizations and business intelligence capabilities with an interface simple enough for end users to create their own reports.
+### What is a lambda function?
+A small, anonymous one-liner function without a name defined using the lambda keyword.
+### _______ manages transactions (in SQL) to ensure data integrity, especially when multiple DML operations occur at one time.
+Transaction Control Language.
+* COMMIT - saves all changes made during the current transaction permanently
+* ROLLBACK - undoes changes since the last commit if an error occurs
+* SAVEPOINT - sets a point within the transaction that you can roll back to later.
+
+### In Spark, what is an "option", and what are its two possible values? Name two ways to handle one.
+It represents an optional values such as Some or None.
+```
+opt.getOrElse("default")
+```
+also
+```
+opt match {
+case Some(v)=>u
+case None => "empty"
+}
+```
+
+### What does it mean to "de-structure" a tuple or case class in a 'match'?
+Break apart the structure
+```
+val t = (1, "a")
+
+t match {
+  case (num, str) => s"$num and $str"
+}
+```
+
+### In Power BI, what are the differences between COUNT(), COUNTROWS(), and DISTINCTCOUNT()?
+* COUNT() - (values in a column including duplicates but ignoring blanks).
+* COUNTROWS() - (all the rows in a table including duplicates but ignoring blanks)
+* DISTINCTCOUNT() - (all unique values in a column and including blanks.
+
+### In Python, what is a DocString?
+A string literal appearing as the first statement in a function, class, or module. It's used for documentation, and it's accessible via obj.__doc__ or help()
+
+### CALCULATE (Power BI)
+each measure has a filter context, but CALCULATE can modify it  or remove them before the expression runs.
+### NATURAL JOIN (SQL) 
+joins all records based on columns that have the same name in both tables)
+### What is the difference between 'git fetch' and 'git pull' ?
+* 'git fetch' downloads commits from a remote repository but doesn't merge them
+* 'git pull' is a combination of 'git fetch' followed immediately by 'git merge'
+### What is a foreign key? (SQL)
+A column in one table that points to the Primary Key in another table.
+For example, a CourseID in an Enrollments table is the foreign key linking back to the courses table.
+### _____ handles security and access management by controlling user permissions. 
+Data Control Language
+* GRANT: Gives specific permissions to the user like SELECT or INSERT to the user.
+* REVOKE: removes previously granted permissions from a user.
+### A.C.I.D.
+* Atomicity - transactions must be completed in their entirety or be rolled back. No partial changes. It's all or nothing.
+* Consistency - data remains in a consistent state after a transaction.
+* Isolation - transactions do not interfere with each other.
+* Durability - data will persist even in the event of a failure.
+
+### What is a primary key?
+A column that uniquely identifies each row in a table. CANNOT BE NULL. MUST BE UNIQUE.
+### In Power BI, what types of filters are there?
+* Visual filters that apply to a single visual.
+* Page filters that apply to all the visuals on a page.
+* Report filters that apply to all pages in a report.
+* Drill-through filters that are navigation features where you can click on a data point and navigate to a special page.
+### In Power BI, what are slicers?
+They are used to create interactive filters that allow users to select values and filter data across multiple visuals. You can add them from the Visualizer pane.
+### How would you read from a file with SparkSQL?
+Call read on sparksession
+* read.csv (specify whether the first row is a column or not and the file location then to inferSchema or not)
+* read.sql
+* read.parquet
+### In Spark, what RDD is like a Tuple? (Hint: It's created from a tuple or using a map function)
+* key-value pair RDD
+* useful for grouping, aggregating, join by key
+### DAX vs PowerQuery
+* DAX - the formula language used to create calculations + custom logic in your model
+* Power Query - used to clean up, shape, and prepare data before loading it into the model.
+* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
