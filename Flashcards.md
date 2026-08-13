@@ -240,7 +240,211 @@ Call read on sparksession
 ### DAX vs PowerQuery
 * DAX - the formula language used to create calculations + custom logic in your model
 * Power Query - used to clean up, shape, and prepare data before loading it into the model.
-* 
+### What is the purpose of a Common Table Expression?
+To create a named temporary result set within a query using a WITH clause. It improves readability and can be referenced multiple times in the same query.
+### In SQL, Create a table with a UserID and name
+CREATE TABLE Users (UserID int PRIMARY KEY Name VARCHAR(255));
+### In SQL, Update the users table for the UserID of 1 to the name of 'Bob' for the name column.
+UPDATE Users SET Name = 'Bob' WHERE UserId = 1;
+### Delete the user with a UserID of 1
+DELETE FROM Users WHERE UserID = 1;
+### What's the difference between 'map' and 'flatmap' (PySpark)
+* map = one output per input
+* flatMap = zero or more outputs, flattened.
+### What does DISTINCT do in a SELECT statement?
+It removes duplicate rows from the result set. Because it compares all selected columns, it can slow queries down on large datasets since it requires sorting and hashing
+### What makes a subquery correlated? 
+It references a column from the outer query and re-executes for each outer row. A correlated subquery references the outer query's current row, e.g. WHERE inner.dept_id = outer.dept_id). It runs once per outer row, making it potentially slow, often replaceable with a JOIN or window function.
+### What is the "Catalyst Optimizer" in Spark?
+Spark's query optimizer that transforms logical plans through analysis, logical optimization, physical planning, and code generation.
+### Resilient Distributed Datasets allow us to control what?
+1. Fine-grain low-level control allowing for custom partitioning and complex transformations in addition to direct memory management.
+2. Unstructured and schema-less data for raw data ingestion and flexible processing.
+### INNER JOIN (SQL)
+only matches
+### OUTER JOIN
+all records from both or else null on either side
+### What are some APIs available in Spark?
+* Dataframe API
+* SparkSQL API
+* Scala API
+* Java API
+* R API
+### How do you handle NULL values in a PySpark DataFrame by filling them with a default value?
+```
+df.na.fill(value)
+
+df.na.fill({'col':value})
+
+df.na.drop() 
+```
+### Which PySpark method adds a new column or replaces an existing one?
+withColumn(name, expression) returns a new DataFrame with the Specified column added or replaced.
+
+### What is a Spark Session?
+The unified entry point for SPark functionality in Spark 2.0+. It includes SparkContext, and the APIs for DataFrame and SQL.
+
+### Which JOIN returns all rows from the left table, with NULLs for unmatched rows from the right?
+LEFT JOIN keeps every row from the table on the left, and places NULL values when there is no matching value from the right table.
+
+### What does df.groupBy('dept').agg(avg('salary')) do?
+Groups rows by dept and computes average salary per group.
+
+### When would you use repartition() vs coalesce() in Spark?
+* repartition() can increase or decrease partitionings with a FULL SHUFFLE
+* coalesce() only decreases partitions efficiently without a full shuffle, thereby minimizing data movement by merging adjacent partitions.
+### What does spark.read.parquet('path') do?
+Reads a Parquet file or directory into a Spark dataframe. Parquet's schema is embedded in the files so Spark automatically applies the correct schema without inferring it.
+
+### What is lazy evaluation in Spark?
+Transformations are not executed immediately. They are triggered by an action, allowing Spark to build a Directed Acyclic Graph of the transformations and use the Catalyst Optimizer to efficiently plan the transformations before an action triggers them (count(), collect()).
+
+### DROP vs. TRUNCATE vs. DELETE
+* DELETE is a DML statement inside a transaction and can be rolled back.
+* TRUNCATE and DROP are both DDL statements and auto-commit in most databases.
+
+### UNION vs. UNION ALL, what is the key difference?
+* UNION removes duplicates
+* UNION ALL keeps all rows.
+UNION de-duplicates by sorting and comparing rows. UNION ALL skips that step, making it faster when duplicates are acceptable.
+### A _______ is a temporary result set that you define at the start of a single query. Think of it as a temporary variable for a specific task.
+Common Table Expression
+### Common Table Expressions
+These make complex queries more readable by breaking them into logical steps. For example, you want to create a temporary list of the Top Students and then join that list with a scholarship table.
+```
+WITH TopStudents AS (
+SELECT student_id, name, gpa
+FROM students
+WHERE gpa >= 3.8
+)
+SELECT ts.student_id, ts.name, ts.gpa, s.scholarship_id, s.amount
+FROM TopStudents ts
+JOIN scholarships s
+ON ts.student_id = s.student_id;
+```
+### A _____ is a saved query that you can treat like a virtual table. It doesn't store the data itself, it just remembers the SQL code used to generate it.
+VIEW
+
+```
+CREATE VIEW StudentContactInfo AS
+SELECT
+s.StudentID, s.FirstName, s.LastName,
+a.Street, a.City, a.State, a.ZipCode
+FROM Student s
+JOIN Address a
+ON s.AddressID = a.AddressID;
+```
+
+Now staff can query:
+```
+SELECT * FROM StudentContactInfo;
+```
+### What's the difference between CTE's and Views?
+CTE's are temporary for one query, while a View is saved in a database and can be reused by staff.
+### Why is Parquet better than csv for analytics?
+CSVs are row-based and larger and therefore slower for analytics. 
+Parquets use a columnar format allowing you to quickly access only the necessary columns.
+### SELF JOIN (SQL)
+You treat the same table as if it were two separate tables using aliases, it's where a table is joined with itself. It is used when a relationship exists between rows within the same table, such as a hierarchy. For example, a course table might have a column for prerequisites that points to CourseID of another course in the same table.
+
+### What is the difference between scalar and aggregate functions? Can you give examples?
+* A Scalar function operates on a single value, ex. UPPER, LOWER, TRUM, CONCAT.
+* An Aggregate function operates on multiple values, ex. MIN, MAX, AVG, SUM
+### What's an RDD? It's the fundamental data structure of Spark. It's immutable and distributed. Low-level operations are done with RDDs. Great for unstructured data. It is fault tolerant using a lineage graph.
+### What is Schema Evolution? (Parquet / AVRO)
+The ability to add, remove, or rename columns in new data files while still being able to read old and new files together. Parquet and Avro both support this to varying degrees. Delta Lakes make it explicit and safe. 
+### In a daily S3 -> PySpark -> data warehouse pipeline, what does idempotency mean? Why might you want that?
+Idempotent pipelines can be rerun safely and get reliable results. 
+### What is a broadcast join and when does Spark use it automatically?
+It's a join where the smaller table is sent to all executors, avoiding shuffling. Spark broadcasts the smaller table to every executor so the join runs locally without shuffling the large table. If below 10 MBs, it's triggered automatically. 
+
+### What is data skew, and what is 'salting'?
+Skew causes one executor to process much more data than others, creating a bottle neck. Salting appends a random number to the key, exploding the skewed key across multiple partitions, then removing the salt post-join.
+
+### What are the four pylons of Object-Oriented Programming?
+* Encapsulation - hiding internal state
+* Abstraction - showing only necessary features
+* Inheritance - reusing code from a parent class
+* Polymorphism - allowing objects to take multiple forms.
+
+### What is Schema Drift? How do you handle it in a pipeline?
+It's where upstream data changes without notice. 
+1. Validate incoming data against the existing schema. "Fail fast"
+2. Use a schema registry for streaming (confluent)
+3. Use Delta Lake's schema evolution to safely add new columns (awesome)
+4. Use explicit column selection over Select * (exquisite)
+
+### What does ROW_NUMBER() do?
+Assigns a unique, sequential integer to each row within a partition, with no ties. Each rows gets a unique number.
+### A __________ performs a calculation across a set of rows that are related to the current row. Unlike GROUP BY, it doesn't collapse rows into a single summary, it keeps the individual rows.
+WINDOW FUNCTION
+### Window Function
+A Window Function calculates running totals, rankings, and moving averages.
+### Encapsulation
+Bundling data and the methods that operate on that data into a single unit (a class) while restricting direct access to some of the class's components. 
+### How would you create a 1-to-many relationship? e.g. A Department has many professors, a professor has one department.
+I would use a foreign key on the many side of the relationship. 
+### 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
