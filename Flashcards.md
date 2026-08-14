@@ -401,7 +401,71 @@ A Window Function calculates running totals, rankings, and moving averages.
 Bundling data and the methods that operate on that data into a single unit (a class) while restricting direct access to some of the class's components. 
 ### How would you create a 1-to-many relationship? e.g. A Department has many professors, a professor has one department.
 I would use a foreign key on the many side of the relationship. 
-### 
+
+### In Scrum, what 3 questions are answered in a Daily Standup? (Agile)
+1. What did I do yesterday?
+2. What will I do today?
+3. Is something blocking me?
+### What is the difference between UNION and UNION ALL? (SQL)
+* UNION removes duplicate rows
+* UNION ALL keeps all rows from both queries (therefore faster)
+### How would you JOIN Dataframes in Spark?
+* INNER JOIN
+* OUTER JOIN
+* FULL OUTER JOIN
+* RIGHT JOIN
+* LEFT JOIN
+* ANTI JOIN
+* SEMI JOIN
+* LEFT SEMI (like LEFT INNER)
+* CROSS JOIN
+### What's the difference between Partitions and Buckets in Spark?
+* Partitions are sub-directories for each value (chosen for low cardinality such as year, state, country), thereby enabling data pruning as you can skip entire folders during a read to reduce disk i/o.
+* Bucketing is for a fixed number of files within a directory based on the hash rather than a column of low cardinality. Shuffling is reduced. The hash is decided to hold a rank of high cardinality information based on the Primary Keys such as UserID and ProductID.
+### How would you save an RDD as a textfile?
+```
+rdd.saveAsTExtFile("path/to/output_directory")
+```
+### Partition (Spark)
+This is how we distribute data logically across nodes in a cluster.
+
+### What are the data types in SQL?
+* Numeric = INT, SMALLINT, BIGINT, DECIMAL, FLOAT, REAL
+* String = CHAR(n), VARCHAR(n), TEXT
+* Date = TIME, DATE, DATETIME, TIMESTAMP
+### What are the four pillars of Agile?
+1. Customer collaboration over contract negotiation
+2. responding to change over creating a plan
+3. individuals + interactions over process & tools
+4. working software over comprehensive documentation.
+
+### What is a VIEW in SQL?
+It is a saved SELECT query. It is a named, stored query. Querying a VIEW executes the underlying SELECT statement, which is useful for abstraction and reusability.
+
+### Why is Shuffling considered a bottleneck in Apache Spark?
+It involves expensive disk I/O of writing and reading files, massive network transfers and serialization as data is redistributed among executors.
+
+### How would you debug a slow Spark job?
+I would use a systematic approach. First, I would check the Spark UI to examine the Jobs to locate the slow stage. In the Tasks tab I can check to see if the times are uniform or not to determine if there is a skew. If on is slower than the others, there is a data skew. I could also check the SQL tab for the plan. Look for the data skew, missing broadcast, excessive shuffle, or too many or even too few partitions. Garbage collection pressure could also be an issue.
+
+### What is a table  in HIVE?
+A table is where we divide table data into sub-directories based on column values, so queries can skip irrelevant partitions. 
+
+### How would you handle late-arriving data in a batch pipeline?
+I would use a "watermark" or even a "look-back window". Spark Structured Streaming has a "watermark" feature that discards events beyond a threshold. It reprocesses the last N days / hours of data on each run to catch late records
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
