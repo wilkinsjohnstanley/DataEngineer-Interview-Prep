@@ -2,20 +2,20 @@
 In no particular order.
 ### What are the 5 sublanguages of SQL?
 * Data Definition Language
-Used to define and manage database structures like tables, indexes, and schemas.
-Key Operations: CREATE, ALTER, DROP, TRUNCATE, RENAME, COMMENT
+- Used to define and manage database structures like tables, indexes, and schemas.
+- Key Operations: CREATE, ALTER, DROP, TRUNCATE, RENAME, COMMENT
 * Data Manipulation Language
-Used to insert, update, and delete data within tables.
-Key Operations: INSERT, UPDATE, DELETE
+- Used to insert, update, and delete data within tables.
+- Key Operations: INSERT, UPDATE, DELETE
 * Data Control Language
-Manages user permissions and access control
-Key Operations: GRANT, REVOKE
+- Manages user permissions and access control
+- Key Operations: GRANT, REVOKE
 * Data Query Language
-Focuses on retrieving data from the database.
-Key Operations: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, DISTINCT, LIMIT
+- Focuses on retrieving data from the database.
+- Key Operations: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, DISTINCT, LIMIT
 * Transaction Control Language
-Handles transactions to ensure data integrity
-Key Operations: BEGIN TRANSACTION, COMMIT, ROLLBACK, SAVEPOINT
+- Handles transactions to ensure data integrity
+- Key Operations: BEGIN TRANSACTION, COMMIT, ROLLBACK, SAVEPOINT
 
 ### When would you choose streaming over batch processing?
 Batch suits high-volume, latency-tolerant workloads such as daily reports. Streaming suits fraud detection and operational alerts.
