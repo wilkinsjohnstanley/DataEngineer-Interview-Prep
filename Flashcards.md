@@ -454,7 +454,59 @@ A table is where we divide table data into sub-directories based on column value
 ### How would you handle late-arriving data in a batch pipeline?
 I would use a "watermark" or even a "look-back window". Spark Structured Streaming has a "watermark" feature that discards events beyond a threshold. It reprocesses the last N days / hours of data on each run to catch late records
 
+### For Parquet format.... what skips row groups that don't match filters?
+Predicate Pushdown?
 
+### Why is Parquet preferred over CSV for analytical queries?
+1. Columnar layout means only relevant columns are read.
+2. Predicate pushdown skips row groups that don't match filters.
+   Both drastically cut Disk I/O compared to CSV form files.
+
+### What is bucketing in HIVE?
+Bucketing applies a hash function to a column and assigns rows to a number of bucket files. BUcketing enables efficient sampling and optimizes joins between bucketed tables on the same key. 
+
+### What is HDFS?
+The Hadoop Distributed File System is a fault tolerant, distributed file system that splits files into 128MB blocks that get replicated and stored across multiple nodes. 
+This enables data to be processed locally in the servers memory. 
+
+### Which transformation causes a shuffle? 
+Shuffling is caused by wide transformations.
+*groupBy() requires data with the same key to be on the same partition. It must shuffle data across the network.
+Others include: reduceByKey(), join(), repartition(), distinct()
+
+### Narrow transformations
+These do not require shuffling because they operate on the individual partitions on each node.
+For example: filter(), map(), select(), union() flatmap(), mapPartitions()
+
+### In a star schema, what type of data holds measureable business events such as sales or clicks?
+Fact Tables store quantitative/measureable events with foreign keys to dimension tables. Dimension tables hold descriptive attributes like product name or customer city.
+### What does the LAG() window function do?
+LAG(col, n) returns the value from 'n' rows before the current row in the window. 
+It's counterpart is LEAD() which does the opposite, it looks ahead. 
+Why might you use it? To compare this months sales with the previous 'n' months of sales, or compare this months sales with the projected sales for the next 'n' months.
+
+### Which Spark abstraction should you prefer for structured data in production ETL?
+DataFrames. They have a schema. They enable the Catalyst optimizer and the Tungsten engine to enable transformations to execute as efficiently as possible. RDDs are lower-level and by pass these optimizations. 
+
+### What is the key difference between AWS Glue and EMR for Spark workloads?
+* AWS Glue abstracts cluster management. It's a serverless ETL service.
+* Elastic Map Reduce gives full control over a provisioned Spark cluster. You can choose instance types, Spark configs, spot instances, and more! EMR is better for complex or high-throughput jobs.
+### What is AWS Glue's Dynamic Frame?
+Dynamic Frames handle schema inconsistencies gracefully. Each record can have a slightly different schema.
+
+### What is Adaptive Query Execution in Spark3?
+A feature that re-optimizes query plans at runtime based on actual statistics from completed stages.
+
+### A.C.I.D. properties
+* Atomicity -> all or nothing, uninterruptable
+* Consistency -> valid to valid state
+* Isolation -> two transactions are isolated from each other
+* Durability -> changes persist
+
+### When do indexes increase performance in SQL? When do the hinder performance?
+Indexing improves data retrieval allowing the database engine to jump directly to the specified record. 
+
+In write-heavy workloads, every INSERT, UPDATE, or DELETE must update all relevant indexes.
 
 
 
