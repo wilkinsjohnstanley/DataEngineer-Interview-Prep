@@ -30,7 +30,7 @@ Local mode runs all SPark processes in one JVM on one machine for development an
 ### Write a SQL query to find the 2nd highest salary in a table
 Using a subquery:
 ```
-SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary> FROM employees)
+SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary < FROM employees)
 ```
 Using LIMIT 1 OFFSET 1
 ```
