@@ -90,7 +90,7 @@ Launching duplicate copies of slow-running tasks on other executors, using which
 spark.speculation=true
 ```
 ### In a star schema, how are dimension tables related to the fact table?
-Dimension Tables are directly related to the Fact Table via Foreign Keys pointing to each Dimension Table. The schema looks like a star with the table table at the center.
+Dimension Tables are directly related to the Fact Table via Foreign Keys pointing to each Dimension Table. The schema looks like a star with the fact table at the center. The fact table is in the middle and the dimension tables are the points of the star.
 ### What is the purpose of the Coalesce() function in SQL?
 It returns the first non-null value in a list of arguments.
 ### What is the purpose of CASCADE DELETE?
