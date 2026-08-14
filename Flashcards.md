@@ -59,7 +59,7 @@ Platform consists of managed platforms for deploying apps, e.g. Elastic Beanstal
 Software consists of ready to use apps, e.g. SalesForce, Gmail.
 ### What does OPTIMIZE do in a Delta Lake?
 It compacts small files into fewer large files which improves read performance with z-ordering  to co-locate related data within files.
-### What is the different between Delta Lake and Apache Iceberg conceptually?
+### What is the difference between Delta Lake and Apache Iceberg conceptually?
 They differ on catalog approach, partition evolution support, and engine compatability. Iceberg has hidden partitioning without rewrites and partition evolution and catalog decoupling.
 ### What problem does Delta Lake's MERGE (upsert) solve?
 It efficiently handles insert-or-update logic atomically. In one ACID transaction, matching rows are updated and non-matching rows are inserted.
