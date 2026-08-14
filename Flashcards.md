@@ -1,5 +1,10 @@
 # Flashcards
 In no particular order.
+### 3 Types of Data
+1. Structured data (customer records, financial transactions, Excel sheets)
+2. Semi-structured data (JSON, HTML, XML)
+3. Unstructured (no fixed format such as social media posts, videos, and much more!!!)
+
 ### What are the 5 sublanguages of SQL?
 1.  Data Definition Language
 - Used to define and manage database structures like tables, indexes, and schemas.
@@ -21,6 +26,29 @@ In no particular order.
 Batch suits high-volume, latency-tolerant workloads such as daily reports. Streaming suits fraud detection and operational alerts.
 ### What is the difference between Spark local mode and cluster mode?
 Local mode runs all SPark processes in one JVM on one machine for development and testing. Cluster Mode runs across multiple nodes with a cluster manager such as YARN, Kubernetes, or a Stand alone cluster manager.
+
+### Write a SQL query to find the 2nd highest salary in a table
+Using a subquery:
+```
+SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary> FROM employees)
+```
+Using LIMIT 1 OFFSET 1
+```
+SELECT DISTINCT salary FROM employees
+ORDER BY salary DESC LIMIT 1 OFFSET 1
+```
+Using a Window Function
+```
+SELECT salary
+FROM
+(
+SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk
+FROM Employee
+) AS ranked
+WHERE rnk = 2;
+```
+
+
 ### What is the difference between AWS S3 and HDFS for data storage?
 AWS S3 decouples storage from compute with infinite scale and cloud-native benefits. HDFS is a distributed file system that is hierarchical (not flat). It is not the cloud, it's local. Files are co-located with compute. It's coupled and has better data locality.
 ### ________ provides a managed cluster for running big data frameworks like Spark, HIVE, and Hadoop on EC2 instances.
@@ -504,9 +532,233 @@ A feature that re-optimizes query plans at runtime based on actual statistics fr
 * Durability -> changes persist
 
 ### When do indexes increase performance in SQL? When do the hinder performance?
-Indexing improves data retrieval allowing the database engine to jump directly to the specified record. 
+* Indexing improves data retrieval allowing the database engine to jump directly to the specified record. 
+* In write-heavy workloads, every INSERT, UPDATE, or DELETE must update all relevant indexes.
 
-In write-heavy workloads, every INSERT, UPDATE, or DELETE must update all relevant indexes.
+
+### The Normal Forms (SQL)
+* 1NF = have a PK
+* 2NF = All columns relates to the PK
+* 3NF = No transitive dependencies
+
+### SQL Operators
+* Comparison ( = , != , <> )
+* Logic ( AND , OR , NOT )
+* Range / List ( BETWEEN , IN )
+* Pattern ( LIKE , % )
+* NULL ( IS NULL )
+
+### WHERE vs. HAVING (SQL)
+The WHERE clause appears before the GROUP BY clause and filters individual rows before aggregation like SUM or COUNT. The HAVING clause appears after the GROUP BY clause and filters groups after aggregation is complete. 
+### What does the Query Execution Plan show?
+It shows the steps the database engine will take to execute a query, including join methods + index usage. EXPLAIN shows the optimizer's chosen path which indexes are used, the join order, estimated row counts, and cost.
+It's essential for diagnosing slow queries. 
+
+### What is a covering index?
+An index that contains all columns needed by a query, so the database never needs to access the actual table rows (including the index itself). This avoids expensive look-ups back to the heap/table which dramatically speeds up the query. 
+
+### Which aggregate function counts non-NULL values in a column?
+* COUNT(Column_name) counts non-NULL values.
+* COUNT(*) includes NULL values
+* SUM + AVG ignores NULL values automatically.
+### What is a foreign key?
+* A column that references the primary key of another table... thereby enforcing REFERENTIAL INTEGRITY... to create a link between the tables.
+### What is a PRIMARY KEY constraint?
+It ensures values in a column are unique and not NULL. It uniquely identifies each row, it implicitly adds a UNIQUE + NOT NULL constraint. A table can have only one primary key. 
+
+### How does Parquet achieve better compression than CSV?
+* Parquet achieves optimized compression through it's Columnar storage which groups similar values together. (Integers with integers, strings with strings). This makes compression far more effective. Run-length encoding (a lossless data compression technique) works great on repeated values, dictionary encoding on low-cardinality strings. 
+
+### What is the main difference between a star schema and a snowflake schema?
+Snowflake schemas are normalized + Star Schemas are denormalized. 
+* In a snowflake schema, dimension tables are normalized into multiple related tables (product_dim, category_dim, etc). Snowflake schemas save storage but require more joins. Wuh-oh!
+* Star schemas: product_dim has a category_name (data is stored repeatedly on one table in a star schema)
+
+### What is a database index and when can it hurt performance?
+Indexes speed up reads by avoiding full table scans but each write must update all relevant indexes (INSERT, UPDATE, DELETE) + wastes space on low-cardinality columns. 
+
+### How does Delta Lake time travel work?
+You query a previous version using VERSION AS OF or TIMESTAMP AS OF. Delta replays the transaction log to reconstruct the table state at that point. 
+```
+spark.read.format('delta').option('versionAsOf', 5).load('path/to/your/file')
+```
+OR
+```
+TIMESTAMP AS OF '2026-08-14'
+```
+### What is the Delta Lake transaction log?
+A JSON-based log (_delta_log/) that records every transaction (add/remove file, schema changes), enabling ACID guarantees + time travel on top of parquet files. 
+### What is the difference between a data lake and a data warehouse?
+* Lakes are schema-on-read and hold raw, unprocessed data of any of the 3 formats.
+* Data warehouses are schema-on-write and hold cleaned, structured data and are ACID compliant with access control (governance).
+
+### What is normalization? What the levels? (SQL)
+It's the process of reducing redundancy in a relational database.
+1. normal form = the key (PK + columns are atomic + granular)
+2. normal form = the whole key (every column relates to the PK)
+3. normal form = nothing but the key (2NF + no transitive dependencies)
+
+### How would you create a 1 to 1 relationship? (A student and their parking space)
+Use a foreign key with a unique constraint on one side of the relationship.
+
+### Parquet (Spark)
+* columnar storage is good for read heavy operations and offers optimized compression. You only query the columns you need. Parquet enables schema evolution.
+
+### What is "grain" in data warehouse modeling?
+The lowest level of detail a fact table represents. The grain defines what one row in the fact table means, e.g. 'one row per line item for each transaction.'
+Establishing grain first is the most critical step in dimensional modeling. 
+
+### Why are surrogate keys preferred over natural keys in a data warehouse?
+Natural keys can change (emails get changed) or contain special characters or collide across source systems. Surrogate keys are stable integers that avoid these problems.
+
+### Which window function assigns the same rank to ties but leaves no gaps in the ranking sequence?
+DENSE_RANK() gives tied rows the same rank and then continues sequentially from the next number after the tie. With RANK(), if two people are tied for second place, then they are both assigned second place, but then there is no 'third place,' it continues counting from 'fourth place.'
+
+### What is the difference between WHERE and HAVING?
+* WHERE filters rows before aggregation
+* HAVING filters after aggregation
+
+### What happens during a Spark Shuffle?
+Data is distributed across partitions over the network, rows with the same key land on the same partition. Shuffles are triggered by wide transformations like GroupBy, JOIN, and DISTINCT. Spark writes intermediate data to disk, transferring it over the network, and then reads it, which makes shuffling the most expensive part of Spark Jobs.
+
+### When designing a PySpark SCD Type 2 pipeline, what technique is used to identify changed records?
+join incoming data to the current dimension on a natural key + compare attribute hashes or columns to detect changes.
+
+### What is the main difference between DROPPING TABLES that are managed vs. external tables? (HIVE)
+HIVE owns managed tables and their metadata, so dropping them deletes everything. Dropping an external table leaves the metadata in place. 
+
+### How would you create a many-to-many relationship? (A student can have many courses and a course has many students).
+I would use a third table known as a junction table to connect them. It will have 2 foreign keys and will be the many side of both relations. 
+
+### What are the 3 Phases of Map Reduce?
+1. Map data into key-value pairs
+2. Group by key using shuffling and sorting
+3. Reduce (aggregate the results)
+
+
+### What does a Window Function's PARTITION BY clause do?
+PARTITION BY in a window function is like a GROUP BY but without collapsing rows. The function resets and runs independently for each partition (ROW_NUMBER, SUM, etc).
+
+### Which PySPark method reads a CSV file into a DataFrame?
+inferSchema scans the file to determine column types automatically
+```
+spark.read.csv('path', header=True, inferSchema=True)
+```
+### What is the difference between 'is' and '==' in Python?
+* '==' checks equality of value
+* 'is' checks identity, i.e. is it the same object in memory?
+### Which exception is raised when accessing a dictionary key that doesn't exist?
+KeyError is raised on missing dictionary key access. Use .get() to return None (or a default) instead of raising it. IndexError is for sequences.
+
+### What is the time complexity of looking up an element in a Python set?
+O(1) average time complexity. Sets use a hash table, giving O(1) average membership testing. Worst case is O(n).
+
+### What does polymorphism allow in OOP?
+Different classes can be used through the same interface. Polymorphism lets different classes implement the same interface or method name. 
+
+### What is "whole stage code generation" in Spark?
+It's why dataframes are faster than RDDs. Tungsten's whole-stage codegeneration fuses multiple operators (filter, project, aggregate) into one tight, taut JVM loop, eliminating virtual dispath + improving CPU's each utilization. 
+
+### Which data structure would you use to count occurrences of words in a document?
+A dict maps words to counts
+```
+occ = {}
+for item in data:
+    occ(item] = occ.get(item, 0) + 1
+```
+### What is the purpose of '__init__' in a Python class?
+It is called when an instance is created to initialize its attributes. It is not a constructor, __new__ creates the object. It sets instance attributes when you call MyClass()
+### What is a subquery?
+It's a SELECT statement nested inside another SQL statement. It can appear in SELECT, FROM, WHERE, or HAVING clauses and returns a result used by the outer query. 
+
+### What does a CROSS JOIN produce?
+it returns every possible combination of the rows from both tables.
+### Inheritance
+child class inherits parent class methods and attributes
+```
+class Animal:
+    def speak(self):
+        pass
+class Dog(Animal):
+    def speak(self:
+        return "Bark"
+```
+### Classes
+The blueprint for creating objects
+```
+class Dog:
+    def __init__(self,name):
+        self.name = name
+```
+a template that defines properties (attributes) and behaviors (methods).
+### In Agile Scrum, what is a sprint?
+A time-boxed iteration in which a team completes a set of planned work.
+
+### What does 'git merge' do compared to 'git rebase'?
+'git merge' creates a merge commit preserving branch history, whereas 'git rebase' replays commits on top of another branch for a linear history.
+
+### What is the difference between a list and a tuple?
+* lists are mutable + use square brackets + duplicates are ok
+* tuples are immutable + use parenthesis () + don't allow duplicates
+
+### CRUD (SQL)
+CREATE, READ, UPDATE, and DELETE are the four fundamental operations used to manage data in a relational database.
+
+### Referential Integrity (SQL)
+Data must be consistent, accurate, reliable and properly connected. A Foreign Key must match a Primary Key in another without it, databases become corrupted with orphaned records (which is prevented using CASCADE DELETE).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
