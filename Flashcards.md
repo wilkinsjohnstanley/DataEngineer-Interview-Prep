@@ -708,6 +708,56 @@ CREATE, READ, UPDATE, and DELETE are the four fundamental operations used to man
 Data must be consistent, accurate, reliable and properly connected. A Foreign Key must match a Primary Key in another without it, databases become corrupted with orphaned records (which is prevented using CASCADE DELETE).
 
 
+### Which keyword is used to handle exceptions in Python?
+The except block catches exceptions as part of the try / except / else / finally structure.
+
+### What does **kwargs capture in a function signature?
+Keyword arguments as a dictionary. **kwargs collects any extra keyword arguments into a dictionary. *args collects extra positional arguments into a tuple.
+### What is the purpose of the 'WITH' statement in file handling?
+It ensures the file is closed automatically via the context manager protocol (closes the file event if an exception is raised)
+### What command inserts a single document in MongoDB?
+* insertOne({...}) inserts a single document
+* insertMany({...}) inserts multiple documents
+Both return an acknowledgement including the generated __id
+### MongoDB equivalent of a SQL table?
+A Collection
+### Why might you denormalize a table in an analytics data warehouse?
+To avoid expensive JOINs at query time. Pre-joining data improves read performance for analytical workloads. 
+### Polymorphism
+a child class can vary the implementation of parent methods and attributes. 
+### If you need to change data frequently in Python, which data structure should you use?
+a List
+### If you need to ensure the data never changes, use _____.
+a Tuple
+### If you need to remove duplicates or wish to only include unique values, use a ______. 
+a Set
+### If you need to look up data by a specific name or ID, use a _______.
+a Dict
+### What does a FULL OUTER JOIN return?
+All rows from both tables, with NULLS where No Match exists. 
+### What is the difference between cache() and persist() in Spark?
+* cache() always uses MEMORY_ONLY
+* persist() lets you specify a storage level
+cache() is a shortcut for persist(StorageLeve.MEMORY_ONLY)
+persist() lets you specify other levels such as MEMORY_AND_DISK or DISK_ONLY
+### What is the difference between a clustered and a non-clustered index?
+A clustered index acts like a phone book. Skip to the 'H' section. (only one per table)
+### Encapsulation
+This refers to bundling data and methods into a single unit, the class, and restricting direct access.
+### In Power BI, what is SUM vs SUMX ?
+SUM is basic aggregation to add up values of a single column.
+SUMX is an iterator and can add up multiple columns or do row by row math.
+### In SQL, what is a LEFT JOIN?
+all from left, any that match from the right
+### In Python, What does the __init__ method do in a Python class?
+It is a constructor method that is automatically called to initialize a new object's attributes when the class is instantiated. 
+
+
+
+
+
+
+
 
 
 
