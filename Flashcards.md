@@ -752,11 +752,206 @@ all from left, any that match from the right
 ### In Python, What does the __init__ method do in a Python class?
 It is a constructor method that is automatically called to initialize a new object's attributes when the class is instantiated. 
 
+### What does the __init__ method do in a Python class?
+It is a constructor method that is automatically called to initialize a new object's attributes when the class is instantiated.
+### What is an index and why is it used? (SQL)
+A data structure used to speed up data retrieval
 
+### In SQL, what is an ERD? How is it useful?
+An Entity-Relationship diagram is used to model and show relationships between different tables in a database.
+### What is 'git stash' ?
+A way to temporarily "shelve" uncommited changes so you can work on something else and apply them later.
+### In SQL, What is a subquery?
+A query nested within another query?
+### _____ is for working with the actual data stored inside the tables.
+The Data Manipulation language
+* INSERT : Adds new rows of data to a table
+* UPDATE : Modifies existing records within a table
+* DELETE : Removes specific rows from a table based on a condition.
 
+### In Python, What is type hinting?
+A way to explicitly declare the expected data types of variables + function returns.
+```
+def add(a:int, b:int) -> int:)
+```
+It helps with debugging and IDE autocompletion.
 
+### In Python, What does "if __name__ "__main__":" do?
+It ensures that the code block inside only runs if the script is executed directly, not when it is important as a module by another script.
+### RIGHT JOIN (SQL)
+all from right, any that match from the left
+### In SQL, ________ is used to define and modify the physical structure or schema of the database.
+Data Definition Language
+* CREATE: creates new objects like tables, views, databases
+* ALTER: Modifies the structure of an existing object such as adding a column
+* DROP: Permanently deletes an object and it's data
+* TRUNCATE: removes all records from a table while keeping its structure intact.
+### GROUP BY (SQL)
+collapses multiple rows into a single summary row. It looks for identical values in a specific column and groups them together to perform a calculation on that group. 
+* COUNT()
+* SUM()
+* AVG()
+* MIN()
+* MAX()
+```
+SELECT major, COUNT(student_id)
+FROM Student
+GROUP BY major;
+```
+### In Python OOP, what is the purpose of super()?
+It refers to the parent class, allowing access to its methods. 
+### Method Overriding (Python)
+It's essentially Runtime Polymorphism. When a subclass provides a specific implementation of a method that is already defined in its parent class.
+### In Power BI, what is DAX?
+Data Analysis Expressions are a library of functions and operators used to build formulas and expressions for data modeling. 
+### How would you handle reading large files in Python?
+For text files, I'd iterate over the file object directly. Python's file iterator is lazy, so it yields one line at a time.
+* Always use a 'with' statement so the file gets closed automatically even if there are exceptions.
+* When reading large files, the key principle is to avoid loading the entire file into memory.
+###  What is the key advantage of the document model in MongoDB?
+Normalization is traded for read performance + schema flexibility. Embedding related data means a single read fetches all needed data (like order items inside an order document).
+### In MongoDB, what does find({age:{$gt:30}}) do ?
+$gt is MongoDB's 'greater than' query operator. find() returns matching documents. 
+* $lt - less than
+* $gte - greater than or equal to
+* $lte less than or equal to
+* $ne - not equal to
+* $in - is this object "in" inside?
+### What columns are typically added to support SCD Type 2?
+* effective_date
+* expiry_date
+* is_current "flag"
+Natural key stays the same across versions.
 
+### What is a surrogate key?
+A system generated identifier with no business meaning. Unlike natural keys such as order number or SSN.
+### Explain the Database concepts of Atomicity, Consistency, Isolation, Durability
+* All or nothin
+* valid state before and after
+* isolation such that concurrent transactions don't interfere with one another
+* committed data survives crashes
 
+### How can you create a set in Python?
+Set a variable equal to unique elements enclosed in {curley} braces
+### What is the output of print(type(lambda x:x)) ? 
+<class 'function'>
+Lambdas are anonymous functions. There is no 'lambda' type.
+### What does a generator function return when called?
+A generator object. It doesn't execute the body yet, values are produced lazily on each call of "next"
+### Different filters in Power BI?
+* Report filter - the entire report
+* Page filter - all graphs on the page
+* Visual filter - the graph
+### In NoSQL, What is a "Shared Cluster" in MongoDB?
+A method of distributing data across multiple machines to support very large datasets and high-throughput operations.
+### In DAX, The ___________ function allows you to evaluate an expression while applying specific filters that you can override or add to the current filter context of your report. 
+Calculate
+```
+West Sales = Calculate (Sum(Sales[Amount]), Sales[Region]="West")
+```
+### What does the 'yield' keyword do in a Python function?
+It pauses execution and returns a value resuming on the next call "next".
+Yield turns a function into a generator, each call to next() resumes from after the yield, making it memory efficient for large sequences.
+
+### In Python, *args vs **kwargs?
+* *args = tuples (any number of positional arguments may be accepted.
+* **kwargs = dictionary (any number of keyword arguments may be accepted)
+### In Python, What are generators?
+They save memory by not saving an entire list in memory at once. Functions that use the yield keyword. They return an iterator that produces items incrementally (lazy evaluation) rather than storing the entire list in memory at once.
+### In Python, how does garbage collection work in Python?
+Python primarily uses Reference Counting. When an object's reference count drops to zero, it is removed. It also has a cyclical garbage collector to handle reference cycles.
+### What is a namespace?
+A system that ensures names are unique and can be used without conflict. Local, Global, or Built-in namespaces.
+### Parquet format
+Parquet files on S3 have no transaction log - partial writes or concurrent writes can corrupt data. Delta Lake adds a atransaction log giving ACID guarantees, time travel, and schema enforcement.
+### Which built-in function returns an iterator of (index, value) pairs?
+enumerate() wraps an iterable and yields (index, value) tuples, avoiding manual counter variables in loops. 
+### What is the difference between a list and a tuple in Python?
+They key difference is mutability. Tuples are immutable (cannot be changed after creation), making them hashable as a key in a dict. Lists, of course, are mutable. 
+### When would you choose NoSQL over a relational database?
+When:
+* data is highly unstructured
+* schema evolves quickly
+* you need horizontal scaling
+NoSQL = flexible schemas like DocumentStores, GraphDB, key:value lookup. Relational databases excelt with structured, complex data with relationships and consistency.
+### In SQL, What does DISTINCT do?
+It removes duplicate rows from the result set, showing only unique values. 
+### What is the correct way to read a large file line-by-line without loading it all into memory?
+Iterating over the file object after using the with open(f) as f syntax. readlines() loads everything into a list first - so be careful!!!
+### What is a natural key?
+A Natural key has business meaning such as SSN, email, product codes that ALREADY EXIST in the source data. On the other hand, Surrogate keys are generated by the DW system and have no business meaning. 
+
+### What is the difference between a calculated column and a measure in PowerBI?
+Calculated columns are stored in the Model. (row context, computed on refresh). Measures use DAX are are evaluated in the filter context at query time .... more memory-efficient for aggregations. 
+### What are slicers in PowerBI?
+The slicer is used to apply different filters to visuals. It filters data across visuals in a page. 
+### What are the components of Power BI?
+1. PowerQuery - cleans data
+2. Modeling - connect the tables (PKs/FKs)
+3. DAX - calc + math to build business logic
+4. Visuals
+5. Share
+### How do you load an RDD from a JSON file?
+1. readAsTextFile
+2. ParseJSON json.load pass as lambda function
+3. call map to generate a key-value RDD
+### in SQL, _______ is specifically for retrieving data from the database.
+Data Query Language
+* SELECT: Fetches data from one or more tables
+### Which of these is a valid custom exception definition?
+```
+a) class MyError(Base Exception):
+        pass
+b) def MyError(Exception):
+        pass
+c) exception MyError:
+        pass
+d) raise class MyError:
+```
+Custom exceptions are classes inheriting from Exception or BaseException. The answer is A. Which is the standard pattern.
+### How do you read a JSON file into a Python dictionary?
+```
+import json
+with open('data.json', 'r') as file:
+      data = json.load(file)
+print(data)
+print(type(data)) # <class 'dict'>
+```
+### In Power Business Intelligence, What do we do to commonly "Clean Data"?
+- handle null values (choose to give it a value or drop it entirely)
+- split and merge columns
+- correct data types (numbers stored as strings into proper integer data types)
+- filter data
+- handle duplicates
+- filter out bad / unnecessary columns
+- trimming data
+### CROSS JOIN (SQL)
+combines every single row from the first with every single row from the second row. For example, Finding every possible combination of Students + Clubs to create a master list of recruiting opportunities. 
+### What is an alias?
+Aliases are used to give a table or column a temporary name. It only exists for the duration of that query.
+### In Spark, How do you rename a column in a Dataframe?
+* withColumnRenamed()
+* withColumn() - adds a new column
+* Dataframe.join() - an expression
+### In SQL, What is the difference between DELETE, DROP, and TRUNCATE?
+* DROP removes the table + it's data
+* DELETE removes specific rows or all if no WHERE clause is used
+* TRUNCATE will empty a table of all it's data but leave the schema intact.
+DROP + DELETE can be rolled back but TRUNCATE cannot.
+### What is a dimension table in a data warehouse?
+Dimension tables hold descriptive context: products, customers, dates, locations. They are joined to fact tables to add meaning to measurements. Used to filter or group facts.
+### What is SparkSQL and how do you use it in PySpark?
+Sparks module for structured data processing using SQL queries. 
+* use df.createOrReplaceTempView('my_table') to register as a temp view the DataFrame.
+* spark.sql('SELECT*FROM my_table') to return a new DataFrame mixing SQL with the DataFrame API.
+### How do you handle exceptions in Python?
+Using the try, except, else, and finally blocks. 
+* try: wraps the code that might cause an error
+* except: contains code to run if an error occurs in the try block
+* else: runs if the try block was successful (no exception)
+* finally: runs regardless - used for clean up tasks like closing files or db connections.
+### In Python, what is a decorator?
+A function that takes another function function and extents its behavior without explicitly modifying it, denoted with the @ symbol.
 
 
 
